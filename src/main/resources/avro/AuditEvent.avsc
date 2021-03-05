@@ -1,0 +1,56 @@
+{
+  "type" : "record",
+  "name" : "AvroAuditEvent",
+  "namespace" : "com.epam.digital.data.platform.starter.audit.model.generated",
+  "fields" : [{
+    "name": "request_id",
+    "type": "string"
+  }, {
+    "name" : "application_name",
+    "type" : "string"
+  }, {
+    "name" : "name",
+    "type" : "string"
+  }, {
+    "name" : "source_system",
+    "type" : ["null", "string"]
+  }, {
+    "name" : "source_application",
+    "type" : ["null", "string"]
+  }, {
+    "name" : "source_business_process",
+    "type" : ["null", "string"]
+  }, {
+    "name" : "source_business_process_definition_id",
+    "type" : ["null", "string"]
+  }, {
+    "name" : "source_business_process_instance_id",
+    "type" : ["null", "string"]
+  }, {
+    "name" : "source_business_activity",
+    "type" : ["null", "string"]
+  }, {
+    "name" : "source_business_activity_id",
+    "type" : ["null", "string"]
+  }, {
+    "name": "type",
+    "type": "string"
+  }, {
+    "name": "timestamp",
+    "type": "long",
+    "logicalType": "timestamp-millis"
+  }, {
+    "name" : "user_name",
+    "type" : ["null", "string"]
+  }, {
+    "name" : "user_keycloak_id",
+    "type" : ["null", "string"]
+  }, {
+    "name" : "user_drfo",
+    "type" : ["null", "string"]
+  }, {
+    "name": "context",
+    "type" : "string",
+    "default": "{}"
+  }]
+}
