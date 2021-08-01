@@ -1,0 +1,41 @@
+{
+  "type" : "record",
+  "name" : "AvroAuditEvent",
+  "namespace" : "com.epam.digital.data.platform.starter.audit.model.generated",
+  "fields" : [{
+    "name": "request_id",
+    "type": "string"
+  }, {
+    "name" : "application",
+    "type" : "string"
+  }, {
+    "name" : "name",
+    "type" : "string"
+  }, {
+    "name": "type",
+    "type": "string"
+  }, {
+    "name": "timestamp",
+    "type": "long",
+    "logicalType": "timestamp-millis"
+  }, {
+    "name" : "user_id",
+    "type" : ["null", "string"]
+  }, {
+    "name" : "user_name",
+    "type" : ["null", "string"]
+  }, {
+    "name" : "source_system",
+    "type" : ["null", "string"]
+  }, {
+    "name" : "source_business_id",
+    "type" : ["null", "string"]
+  }, {
+    "name" : "source_business_process",
+    "type" : ["null", "string"]
+  }, {
+    "name": "context",
+    "type" : "string",
+    "default": "{}"
+  }]
+}
