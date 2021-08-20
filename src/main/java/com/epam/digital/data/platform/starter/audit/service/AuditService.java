@@ -7,9 +7,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 import org.springframework.context.ApplicationEventPublisher;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
-@Service
+@Component
 public class AuditService {
 
   private static final String ACTION = "action";

@@ -5,7 +5,7 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 @ConfigurationProperties("audit.kafka")
-public class AuditProperties {
+public class AuditKafkaProperties {
 
   private String bootstrap;
   private String topic;

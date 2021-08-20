@@ -6,14 +6,11 @@ import java.util.Map;
 public class AuditEvent {
   private String requestId;
   private String application;
-  private String sourceSystem;
-  private String sourceBusinessId;
-  private String sourceBusinessProcess;
   private String name;
+  private AuditSourceInfo sourceInfo;
   private EventType eventType;
   private long currentTime;
-  private String userId;
-  private String userName;
+  private AuditUserInfo userInfo;
   private Map<String, Object> context = new HashMap<>();
 
   public String getRequestId() {
@@ -32,36 +29,20 @@ public class AuditEvent {
     this.application = application;
   }
 
-  public String getSourceSystem() {
-    return sourceSystem;
-  }
-
-  public void setSourceSystem(String sourceSystem) {
-    this.sourceSystem = sourceSystem;
-  }
-
-  public String getSourceBusinessId() {
-    return sourceBusinessId;
-  }
-
-  public void setSourceBusinessId(String sourceBusinessId) {
-    this.sourceBusinessId = sourceBusinessId;
-  }
-
-  public String getSourceBusinessProcess() {
-    return sourceBusinessProcess;
-  }
-
-  public void setSourceBusinessProcess(String sourceBusinessProcess) {
-    this.sourceBusinessProcess = sourceBusinessProcess;
-  }
-
   public String getName() {
     return name;
   }
 
   public void setName(String name) {
     this.name = name;
+  }
+
+  public AuditSourceInfo getSourceInfo() {
+    return sourceInfo;
+  }
+
+  public void setSourceInfo(AuditSourceInfo sourceInfo) {
+    this.sourceInfo = sourceInfo;
   }
 
   public EventType getEventType() {
@@ -80,20 +61,12 @@ public class AuditEvent {
     this.currentTime = currentTime;
   }
 
-  public String getUserId() {
-    return userId;
+  public AuditUserInfo getUserInfo() {
+    return userInfo;
   }
 
-  public void setUserId(String userId) {
-    this.userId = userId;
-  }
-
-  public String getUserName() {
-    return userName;
-  }
-
-  public void setUserName(String userName) {
-    this.userName = userName;
+  public void setUserInfo(AuditUserInfo userInfo) {
+    this.userInfo = userInfo;
   }
 
   public Map<String, Object> getContext() {
@@ -107,14 +80,11 @@ public class AuditEvent {
   public static final class AuditEventBuilder {
     private String requestId;
     private String application;
-    private String sourceSystem;
-    private String sourceBusinessId;
-    private String sourceBusinessProcess;
     private String name;
+    private AuditSourceInfo sourceInfo;
     private EventType eventType;
     private long currentTime;
-    private String userId;
-    private String userName;
+    private AuditUserInfo userInfo;
     private Map<String, Object> context = new HashMap<>();
 
     private AuditEventBuilder() {
@@ -134,23 +104,13 @@ public class AuditEvent {
       return this;
     }
 
-    public AuditEventBuilder sourceSystem(String sourceSystem) {
-      this.sourceSystem = sourceSystem;
-      return this;
-    }
-
-    public AuditEventBuilder sourceBusinessId(String sourceBusinessId) {
-      this.sourceBusinessId = sourceBusinessId;
-      return this;
-    }
-
-    public AuditEventBuilder sourceBusinessProcess(String sourceBusinessProcess) {
-      this.sourceBusinessProcess = sourceBusinessProcess;
-      return this;
-    }
-
     public AuditEventBuilder name(String name) {
       this.name = name;
+      return this;
+    }
+
+    public AuditEventBuilder sourceInfo(AuditSourceInfo sourceInfo) {
+      this.sourceInfo = sourceInfo;
       return this;
     }
 
@@ -164,13 +124,8 @@ public class AuditEvent {
       return this;
     }
 
-    public AuditEventBuilder userId(String userId) {
-      this.userId = userId;
-      return this;
-    }
-
-    public AuditEventBuilder userName(String userName) {
-      this.userName = userName;
+    public AuditEventBuilder userInfo(AuditUserInfo userInfo) {
+      this.userInfo = userInfo;
       return this;
     }
 
@@ -183,14 +138,11 @@ public class AuditEvent {
       var auditEvent = new AuditEvent();
       auditEvent.setRequestId(requestId);
       auditEvent.setApplication(application);
-      auditEvent.setSourceSystem(sourceSystem);
-      auditEvent.setSourceBusinessId(sourceBusinessId);
-      auditEvent.setSourceBusinessProcess(sourceBusinessProcess);
       auditEvent.setName(name);
+      auditEvent.setSourceInfo(sourceInfo);
       auditEvent.setEventType(eventType);
       auditEvent.setCurrentTime(currentTime);
-      auditEvent.setUserId(userId);
-      auditEvent.setUserName(userName);
+      auditEvent.setUserInfo(userInfo);
       auditEvent.setContext(context);
       return auditEvent;
     }

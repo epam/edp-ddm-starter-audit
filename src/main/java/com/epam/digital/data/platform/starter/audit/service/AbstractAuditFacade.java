@@ -1,6 +1,8 @@
 package com.epam.digital.data.platform.starter.audit.service;
 
 import com.epam.digital.data.platform.starter.audit.model.AuditEvent;
+import com.epam.digital.data.platform.starter.audit.model.AuditSourceInfo;
+import com.epam.digital.data.platform.starter.audit.model.AuditUserInfo;
 import com.epam.digital.data.platform.starter.audit.model.EventType;
 import java.time.Clock;
 import java.util.Map;
@@ -11,9 +13,9 @@ public abstract class AbstractAuditFacade {
   private final String appName;
   private final Clock clock;
 
-  protected AbstractAuditFacade(String appName, AuditService auditService, Clock clock) {
-    this.appName = appName;
+  protected AbstractAuditFacade(AuditService auditService, String appName, Clock clock) {
     this.auditService = auditService;
+    this.appName = appName;
     this.clock = clock;
   }
 
@@ -36,29 +38,15 @@ public abstract class AbstractAuditFacade {
           .requestId(requestId);
     }
 
-    public GroupedAuditEventBuilder setBusinessProcessInfo(
-        String sourceSystem,
-        String sourceBusinessId,
-        String sourceBusinessProcess) {
-      builder.sourceSystem(sourceSystem)
-          .sourceBusinessId(sourceBusinessId)
-          .sourceBusinessProcess(sourceBusinessProcess);
-      return this;
-    }
-
-    public GroupedAuditEventBuilder setBusinessProcessInfo(
-        String sourceSystem,
-        String sourceBusinessProcess) {
-      builder.sourceSystem(sourceSystem)
-          .sourceBusinessProcess(sourceBusinessProcess);
+    public GroupedAuditEventBuilder setSourceInfo(
+            AuditSourceInfo auditSourceInfo) {
+      builder.sourceInfo(auditSourceInfo);
       return this;
     }
 
     public GroupedAuditEventBuilder setUserInfo(
-        String userId,
-        String userName) {
-      builder.userId(userId)
-          .userName(userName);
+            AuditUserInfo auditUserInfo) {
+      builder.userInfo(auditUserInfo);
       return this;
     }
 

@@ -16,21 +16,21 @@ import org.springframework.scheduling.annotation.EnableAsync;
 
 @EnableAsync
 @Configuration
-public class AuditConfig {
+public class AuditKafkaConfig {
 
-  private final AuditProperties auditProperties;
+  private final AuditKafkaProperties auditKafkaProperties;
 
-  public AuditConfig(AuditProperties auditProperties) {
-    this.auditProperties = auditProperties;
+  public AuditKafkaConfig(AuditKafkaProperties auditKafkaProperties) {
+    this.auditKafkaProperties = auditKafkaProperties;
   }
 
   @Bean
   public Map<String, Object> auditProducerConfigs() {
     Map<String, Object> props = new HashMap<>();
-    props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, auditProperties.getBootstrap());
+    props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, auditKafkaProperties.getBootstrap());
     props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
     props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, KafkaAvroSerializer.class);
-    props.put(AbstractKafkaSchemaSerDeConfig.SCHEMA_REGISTRY_URL_CONFIG, auditProperties.getSchemaRegistryUrl());
+    props.put(AbstractKafkaSchemaSerDeConfig.SCHEMA_REGISTRY_URL_CONFIG, auditKafkaProperties.getSchemaRegistryUrl());
     return props;
   }
 
