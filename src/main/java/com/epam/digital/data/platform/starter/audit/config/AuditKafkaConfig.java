@@ -20,7 +20,10 @@ import io.confluent.kafka.serializers.AbstractKafkaSchemaSerDeConfig;
 import io.confluent.kafka.serializers.KafkaAvroSerializer;
 import java.util.HashMap;
 import java.util.Map;
+
+import org.apache.kafka.clients.CommonClientConfigs;
 import org.apache.kafka.clients.producer.ProducerConfig;
+import org.apache.kafka.common.config.SslConfigs;
 import org.apache.kafka.common.serialization.StringSerializer;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
@@ -33,6 +36,9 @@ import org.springframework.scheduling.annotation.EnableAsync;
 @EnableAsync
 @Configuration
 public class AuditKafkaConfig {
+
+  private static final String CERTIFICATES_TYPE = "PEM";
+  private static final String SECURITY_PROTOCOL = "SSL";
 
   private final AuditKafkaProperties auditKafkaProperties;
 
@@ -47,6 +53,9 @@ public class AuditKafkaConfig {
     props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
     props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, KafkaAvroSerializer.class);
     props.put(AbstractKafkaSchemaSerDeConfig.SCHEMA_REGISTRY_URL_CONFIG, auditKafkaProperties.getSchemaRegistryUrl());
+    if (auditKafkaProperties.getSsl().isEnabled()) {
+      props.putAll(createSslProperties());
+    }
     return props;
   }
 
@@ -59,5 +68,16 @@ public class AuditKafkaConfig {
   public <O> KafkaTemplate<String, O> auditReplyTemplate(
       @Qualifier("auditRequestProducerFactory") ProducerFactory<String, O> auditRequestProducerFactory) {
     return new KafkaTemplate<>(auditRequestProducerFactory);
+  }
+
+  private Map<String, Object> createSslProperties() {
+    return Map.of(
+            CommonClientConfigs.SECURITY_PROTOCOL_CONFIG, SECURITY_PROTOCOL,
+            SslConfigs.SSL_TRUSTSTORE_TYPE_CONFIG, CERTIFICATES_TYPE,
+            SslConfigs.SSL_KEYSTORE_TYPE_CONFIG, CERTIFICATES_TYPE,
+            SslConfigs.SSL_TRUSTSTORE_CERTIFICATES_CONFIG, auditKafkaProperties.getSsl().getTruststoreCertificate(),
+            SslConfigs.SSL_KEYSTORE_CERTIFICATE_CHAIN_CONFIG, auditKafkaProperties.getSsl().getKeystoreCertificate(),
+            SslConfigs.SSL_KEYSTORE_KEY_CONFIG, auditKafkaProperties.getSsl().getKeystoreKey()
+    );
   }
 }

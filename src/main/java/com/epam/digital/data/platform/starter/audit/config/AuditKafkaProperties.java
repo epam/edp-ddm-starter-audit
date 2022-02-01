@@ -26,6 +26,7 @@ public class AuditKafkaProperties {
   private String bootstrap;
   private String topic;
   private String schemaRegistryUrl;
+  private SslProperties ssl;
 
   public String getBootstrap() {
     return bootstrap;
@@ -49,5 +50,53 @@ public class AuditKafkaProperties {
 
   public void setSchemaRegistryUrl(String schemaRegistryUrl) {
     this.schemaRegistryUrl = schemaRegistryUrl;
+  }
+
+  public SslProperties getSsl() {
+    return ssl;
+  }
+
+  public void setSsl(SslProperties ssl) {
+    this.ssl = ssl;
+  }
+
+  public static class SslProperties {
+
+    private boolean enabled;
+    private String keystoreKey;
+    private String keystoreCertificate;
+    private String truststoreCertificate;
+
+    public boolean isEnabled() {
+      return enabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+      this.enabled = enabled;
+    }
+
+    public String getKeystoreKey() {
+      return keystoreKey;
+    }
+
+    public void setKeystoreKey(String keystoreKey) {
+      this.keystoreKey = keystoreKey;
+    }
+
+    public String getKeystoreCertificate() {
+      return keystoreCertificate;
+    }
+
+    public void setKeystoreCertificate(String keystoreCertificate) {
+      this.keystoreCertificate = keystoreCertificate;
+    }
+
+    public String getTruststoreCertificate() {
+      return truststoreCertificate;
+    }
+
+    public void setTruststoreCertificate(String truststoreCertificate) {
+      this.truststoreCertificate = truststoreCertificate;
+    }
   }
 }
