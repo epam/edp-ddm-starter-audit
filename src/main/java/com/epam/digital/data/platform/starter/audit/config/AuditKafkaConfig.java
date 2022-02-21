@@ -25,7 +25,6 @@ import org.apache.kafka.clients.CommonClientConfigs;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.config.SslConfigs;
 import org.apache.kafka.common.serialization.StringSerializer;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.kafka.core.DefaultKafkaProducerFactory;
@@ -47,7 +46,15 @@ public class AuditKafkaConfig {
   }
 
   @Bean
-  public Map<String, Object> auditProducerConfigs() {
+  public <O> KafkaTemplate<String, O> auditReplyTemplate() {
+    return new KafkaTemplate<>(auditRequestProducerFactory());
+  }
+
+  private <I> ProducerFactory<String, I> auditRequestProducerFactory() {
+    return new DefaultKafkaProducerFactory<>(auditProducerConfigs());
+  }
+
+  private Map<String, Object> auditProducerConfigs() {
     Map<String, Object> props = new HashMap<>();
     props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, auditKafkaProperties.getBootstrap());
     props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
@@ -57,17 +64,6 @@ public class AuditKafkaConfig {
       props.putAll(createSslProperties());
     }
     return props;
-  }
-
-  @Bean
-  public <I> ProducerFactory<String, I> auditRequestProducerFactory() {
-    return new DefaultKafkaProducerFactory<>(auditProducerConfigs());
-  }
-
-  @Bean
-  public <O> KafkaTemplate<String, O> auditReplyTemplate(
-      @Qualifier("auditRequestProducerFactory") ProducerFactory<String, O> auditRequestProducerFactory) {
-    return new KafkaTemplate<>(auditRequestProducerFactory);
   }
 
   private Map<String, Object> createSslProperties() {
